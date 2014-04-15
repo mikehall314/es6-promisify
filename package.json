@@ -10,5 +10,9 @@
   },
   "files": [
     "lib/promisify.js"
-  ]
+  ],
+  "repository": {
+    "type":"git",
+    "url":"https://github.com/twistdigital/es6-promisify.git"
+  }
 }
