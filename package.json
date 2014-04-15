@@ -1,0 +1,14 @@
+{
+  "name": "es6-promisify",
+  "version": "0.1.0",
+  "description": "Converts many callback-based functions to ES6 Promises",
+  "main": "lib/promisify.js",
+  "author": "Mike Hall <mikehall314@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "es6-promise": "^0.1.1"
+  },
+  "files": [
+    "lib/promisify.js"
+  ]
+}
