@@ -2,6 +2,14 @@
 
 Converts callback-based functions to Promise-based functions, with [es6-promise](https://github.com/jakearchibald/es6-promise).
 
+## Install
+
+Install with [npm](https://npmjs.org/package/es6-promisify)
+
+```bash
+npm install --save es6-promisify
+```
+
 ## Example
 
 ```js
