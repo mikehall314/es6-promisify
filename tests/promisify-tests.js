@@ -2,9 +2,9 @@
 
 "use strict";
 
-var Promise = require('es6-promise').Promise;
-var promisify, o;
+var Promise, promisify, o;
 
+Promise   = require('es6-promise').Promise;
 promisify = require("../lib/promisify.js");
 
 // Test function. If fail is true, will callback with an error.
@@ -218,24 +218,24 @@ module.exports = {
         }).then(test.done);
     },
 
-    "call promisified function multi times": function (test) {
-      var counter = 0;
+    "promisified function called multiple times": function (test) {
 
-      var promisified = promisify(function (cb) {
-        setTimeout(function () {
-          cb(null, counter++);
-        }, 50);
-      });
+        var counter, promisified;
 
-      Promise
-        .all([
-          promisified(),
-          promisified(),
-          promisified()
-        ])
-        .then(function (results) {
-          test.ok(counter === 3, "Unexpected error value");
-        })
-        .then(test.done);
+        counter = 0;
+        promisified = promisify(function (cb) {
+            setTimeout(function () {
+                counter += 1;
+                cb(null, counter);
+            }, 50);
+        });
+
+        Promise.all([
+            promisified(),
+            promisified(),
+            promisified()
+        ]).then(function (results) {
+            test.deepEqual(results, [1, 2, 3], "Unexpected result array");
+        }).then(test.done);
     }
 };
