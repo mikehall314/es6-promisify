@@ -2,6 +2,7 @@
 
 "use strict";
 
+var Promise = require('es6-promise').Promise;
 var promisify, o;
 
 promisify = require("../lib/promisify.js");
@@ -215,5 +216,26 @@ module.exports = {
             test.equal(because, "custom error", "Unexpected error value");
 
         }).then(test.done);
+    },
+
+    "call promisified function multi times": function (test) {
+      var counter = 0;
+
+      var promisified = promisify(function (cb) {
+        setTimeout(function () {
+          cb(null, counter++);
+        }, 50);
+      });
+
+      Promise
+        .all([
+          promisified(),
+          promisified(),
+          promisified()
+        ])
+        .then(function (results) {
+          test.ok(counter === 3, "Unexpected error value");
+        })
+        .then(test.done);
     }
 };
