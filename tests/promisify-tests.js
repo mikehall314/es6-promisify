@@ -4,7 +4,7 @@
 
 var Promise, promisify, o;
 
-Promise   = require('es6-promise').Promise;
+Promise   = require("../lib/promise.js");
 promisify = require("../lib/promisify.js");
 
 // Test function. If fail is true, will callback with an error.
