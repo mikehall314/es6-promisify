@@ -14,7 +14,8 @@
   },
   "bugs": "http://github.com/twistdigital/es6-promisify/issues",
   "files": [
-    "lib/promisify.js"
+    "lib/promisify.js",
+    "lib/promise.js"
   ],
   "repository": {
     "type": "git",
