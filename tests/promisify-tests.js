@@ -22,7 +22,7 @@ function standard(fail, callback) {
 o = {
     "thing": true,
     "method": function (callback) {
-        if (this.thing) {
+        if (this && this.thing) {
             return callback(null, "thing");
         }
         callback("error");
@@ -164,6 +164,26 @@ module.exports = {
 
             // Should reject the promise and land in here.
             test.equal(because, "error", "Unexpected error value");
+
+        }).then(test.done);
+    },
+
+    "promisify method with default callback (same context)": function (test) {
+
+        test.expect(1);
+
+        // Promisify a method, preserving it's parent context
+        o.methodPromisified = promisify(o.method);
+
+        o.methodPromisified().then(function kept(thing) {
+
+            // String should equal success
+            test.equal(thing, "thing", "Unexpected return value");
+
+        }, function broken(because) {
+
+            // We shouldn't get in here, if we do we rejected unexpectedly
+            test.ok(false, "Unexpected rejection: " + because);
 
         }).then(test.done);
     },
