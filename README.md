@@ -84,6 +84,38 @@ client("ping", []).then(function (pong) {
 });
 ```
 
+## Promisify instance methods
+```js
+"use strict";
+
+// Declare variables
+var promisify, fs, fileReader;
+
+// Load modules
+promisify = require("es6-promisify");
+fs        = require("fs");
+
+// Declare a class and an instance method
+function FileReader(filename) {
+    this.filename = filename;
+}
+FileReader.prototype.read = function (done) {
+    fs.readFile(this.filename, done);
+};
+
+// Create a promise-based version of an instance method
+FileReader.prototype.read = promisify(FileReader.prototype.read, true);
+
+// Create new instance
+fileReader = new FileReader("example.txt");
+
+fileReader.read().then(function (data) {
+    console.log("Got data", data);
+}).catch(function (err) {
+    // err = "Could not read file"
+});
+```
+
 ### Tests
 Test with nodeunit
 ```bash

@@ -29,6 +29,20 @@ o = {
     }
 };
 
+// Test class. If the "method" method can see the things
+// in its parent, then it will callback with "thing".
+// Otherwise, will error with the string "error".
+function Klass() {
+    this.thing = true;
+}
+
+Klass.prototype.method = function (callback) {
+    if (this.thing) {
+        return callback(null, "thing");
+    }
+    callback("error");
+};
+
 module.exports = {
 
     "promisify function with default callback": function (test) {
@@ -214,6 +228,50 @@ module.exports = {
 
             // Should get a custom error in here.
             test.equal(because, "custom error", "Unexpected error value");
+
+        }).then(test.done);
+    },
+
+    "promisify instance method with default callback and original context": function (test) {
+
+        test.expect(1);
+
+        // Promisify a method, binding it to it's parent context
+        Klass.prototype.promisified = promisify(Klass.prototype.method, true);
+
+        var klass = new Klass();
+
+        klass.promisified().then(function kept(thing) {
+
+            // String should equal success
+            test.equal(thing, "thing", "Unexpected return value");
+
+        }, function broken(because) {
+
+            // We shouldn't get in here, if we do we rejected unexpectedly
+            test.ok(false, "Unexpected rejection: " + because);
+
+        }).then(test.done);
+    },
+
+    "promisify instance method with default callback and overriden context (broken context)": function (test) {
+
+        test.expect(1);
+
+        // Promisify a method, without binding to it's parent. We expect this to fail.
+        Klass.prototype.promisified = promisify(Klass.prototype.method);
+
+        var klass = new Klass();
+
+        klass.promisified().then(function kept() {
+
+            // Shouldn't get in here.
+            test.ok(false, "Unexpected kept promise");
+
+        }, function broken(because) {
+
+            // Should reject the promise and land in here.
+            test.equal(because, "error", "Unexpected error value");
 
         }).then(test.done);
     },
