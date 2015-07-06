@@ -257,5 +257,17 @@ module.exports = {
         ]).then(function (results) {
             test.deepEqual(results, [1, 2, 3], "Unexpected result array");
         }).then(test.done);
+    },
+
+    "promisified function callback with multiple arguments": function (test) {
+        var promisified = promisify(function (cb) {
+            setTimeout(function () {
+                cb(null, 1, 2, 3);
+            });
+        });
+
+        promisified().then(function (result) {
+            test.deepEqual(result, [1, 2, 3], "Unexpected result array");
+        }).then(test.done);
     }
 };
