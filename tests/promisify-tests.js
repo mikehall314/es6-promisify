@@ -269,5 +269,12 @@ module.exports = {
         promisified().then(function (result) {
             test.deepEqual(result, [1, 2, 3], "Unexpected result array");
         }).then(test.done);
+    },
+
+    "already promisified functions must not be re-promisified": function (test) {
+        var promisified = promisify(standard);
+        var rePromisified = promisify(promisified);
+        test.strictEqual(promisified, rePromisified);
+        test.done();
     }
 };
