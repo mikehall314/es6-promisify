@@ -11,7 +11,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "es6-promise": "^2.3.0"
+    "es6-promise": "^3.0.2"
   },
   "scripts": {
     "pretest": "jslint ./lib/* ./tests/*",
@@ -27,7 +27,7 @@
     "url": "https://github.com/twistdigital/es6-promisify.git"
   },
   "devDependencies": {
-    "jslint": "^0.9.0",
-    "nodeunit": "^0.9.0"
+    "jslint": "^0.9.3",
+    "nodeunit": "^0.9.1"
   }
 }
