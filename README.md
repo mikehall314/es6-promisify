@@ -18,14 +18,11 @@ npm install --save es6-promisify
 "use strict";
 
 // Declare variables
-var promisify, fs, stat;
+var promisify = require("es6-promisify"),
+    fs = require("fs"),
 
-// Load modules
-promisify = require("es6-promisify");
-fs        = require("fs");
-
-// Convert the stat function
-stat = promisify(fs.stat);
+    // Convert the stat function
+    stat = promisify(fs.stat);
 
 // Now usable as a promise!
 stat("example.txt").then(function (stats) {
@@ -40,11 +37,9 @@ stat("example.txt").then(function (stats) {
 "use strict";
 
 // Declare variables
-var promisify, fs, stat;
-
-// Load modules
-promisify = require("es6-promisify");
-fs        = require("fs");
+var promisify = require("es6-promisify"),
+    fs = require("fs"),
+    stat;
 
 // Convert the stat function, with a custom callback
 stat = promisify(fs.stat, function (err, result) {
@@ -67,14 +62,11 @@ stat("example.txt").then(function (stats) {
 "use strict";
 
 // Declare variables
-var promisify, redis, client;
+var promisify = require("es6-promisify"),
+    redis = require("redis").createClient(6379, "localhost"),
 
-// Load modules
-promisify = require("es6-promisify");
-redis     = require("redis").createClient(6379, "localhost");
-
-// Create a promise-based version of send_command
-client = promisify(redis.send_command.bind(redis));
+    // Create a promise-based version of send_command
+    client = promisify(redis.send_command.bind(redis));
 
 // Send commands to redis and get a promise back
 client("ping", []).then(function (pong) {

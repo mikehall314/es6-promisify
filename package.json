@@ -14,7 +14,7 @@
     "es6-promise": "^3.0.2"
   },
   "scripts": {
-    "pretest": "jslint ./lib/* ./tests/*",
+    "pretest": "./node_modules/jslint/bin/jslint.js --edition=\"2014-07-08\" ./lib/*.js ./tests/*.js",
     "test": "nodeunit tests"
   },
   "bugs": "http://github.com/twistdigital/es6-promisify/issues",

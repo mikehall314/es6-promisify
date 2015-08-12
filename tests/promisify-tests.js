@@ -1,11 +1,10 @@
-/*jslint node: true, maxlen: 128 */
+/*jslint node: true, maxlen: 120 */
 
 "use strict";
 
-var Promise, promisify, o;
-
-Promise   = require("../lib/promise.js");
-promisify = require("../lib/promisify.js");
+var ES6Promise = require("../lib/promise.js"),
+    promisify = require("../lib/promisify.js"),
+    o;
 
 // Test function. If fail is true, will callback with an error.
 // Otherwise, will callback with the string "success".
@@ -20,8 +19,8 @@ function standard(fail, callback) {
 // in its parent, then it will callback with "thing".
 // Otherwise, will error with the string "error".
 o = {
-    "thing": true,
-    "method": function (callback) {
+    thing: true,
+    method: function (callback) {
         if (this && this.thing) {
             return callback(null, "thing");
         }
@@ -250,7 +249,7 @@ module.exports = {
             }, 50);
         });
 
-        Promise.all([
+        ES6Promise.all([
             promisified(),
             promisified(),
             promisified()
