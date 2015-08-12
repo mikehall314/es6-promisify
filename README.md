@@ -21,7 +21,7 @@ npm install --save es6-promisify
 var promisify = require("es6-promisify"),
     fs = require("fs"),
 
-    // Convert the stat function
+// Convert the stat function
     stat = promisify(fs.stat);
 
 // Now usable as a promise!
@@ -65,7 +65,7 @@ stat("example.txt").then(function (stats) {
 var promisify = require("es6-promisify"),
     redis = require("redis").createClient(6379, "localhost"),
 
-    // Create a promise-based version of send_command
+// Create a promise-based version of send_command
     client = promisify(redis.send_command.bind(redis));
 
 // Send commands to redis and get a promise back
