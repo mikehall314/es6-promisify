@@ -1,3 +1,5 @@
+[![Travis CI](https://travis-ci.org/twistdigital/es6-promisify.svg)](https://travis-ci.org/twistdigital/es6-promisify)
+
 # es6-promisify
 
 Converts callback-based functions to Promise-based functions.
