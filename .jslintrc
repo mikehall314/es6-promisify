@@ -1,6 +1,5 @@
 {
-    "edition": "2014-07-08",
+    "edition": "2015-05-08",
     "node": true,
-    "indent": 4,
     "maxlen": 120
 }

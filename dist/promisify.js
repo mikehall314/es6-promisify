@@ -1,10 +1,12 @@
 /*jslint node, this, es6, maxlen: 120 */
+"use strict";
+
 module.exports = (function () {
 
     "use strict";
 
     // Get a promise object. This may be native, or it may be polyfilled
-    let ES6Promise = require("./promise.js");
+    var ES6Promise = require("./promise.js");
 
     // Promise Context object constructor.
     function Context(resolve, reject, custom) {
@@ -14,18 +16,23 @@ module.exports = (function () {
     }
 
     // Default callback function - rejects on truthy error, otherwise resolves
-    function callback(...args) {
+    function callback() {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-        let ctx = args.shift(),
+        var ctx = args.shift(),
             err = args.shift(),
-            cust;
+            cust = undefined;
 
-        args = args.length > 1
-            ? args
-            : args[0];
+        args = args.length > 1 ? args : args[0];
 
         if (typeof ctx.custom === 'function') {
-            cust = function (...custArgs) {
+            cust = function () {
+                for (var _len2 = arguments.length, custArgs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                    custArgs[_key2] = arguments[_key2];
+                }
+
                 // Bind the callback to itself, so the resolve and reject
                 // properties that we bound are available to the callback.
                 // Then we push it onto the end of the arguments array.
@@ -57,16 +64,19 @@ module.exports = (function () {
      */
     return function (original, custom) {
 
-        return function (...args) {
+        return function () {
+            for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                args[_key3] = arguments[_key3];
+            }
 
             // Store original context
-            let that = this;
+            var that = this;
 
             // Return the promisified function
             return new ES6Promise(function (resolve, reject) {
 
                 // Create a Context object
-                let ctx = new Context(resolve, reject, custom);
+                var ctx = new Context(resolve, reject, custom);
 
                 // Append the callback bound to the context
                 args.push(callback.bind(null, ctx));
@@ -76,4 +86,4 @@ module.exports = (function () {
             });
         };
     };
-}());
+})();
