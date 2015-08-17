@@ -17,14 +17,14 @@
     "pretest": "./node_modules/jslint/bin/jslint.js --edition=\"2015-05-08\" ./lib/*.js ./tests/*.js",
     "test": "gulp && nodeunit tests"
   },
-  "bugs": "http://github.com/twistdigital/es6-promisify/issues",
+  "bugs": "http://github.com/digitaldesignlabs/es6-promisify/issues",
   "files": [
     "dist/promisify.js",
     "dist/promise.js"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/twistdigital/es6-promisify.git"
+    "url": "https://github.com/digitaldesignlabs/es6-promisify.git"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
