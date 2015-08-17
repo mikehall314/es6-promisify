@@ -1,4 +1,4 @@
-[![Travis CI](https://travis-ci.org/twistdigital/es6-promisify.svg)](https://travis-ci.org/twistdigital/es6-promisify)
+[![Travis CI](https://travis-ci.org/digitaldesignlabs/es6-promisify.svg)](https://travis-ci.org/digitaldesignlabs/es6-promisify)
 
 # es6-promisify
 
