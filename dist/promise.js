@@ -1,13 +1,13 @@
+"use strict";
+
 /*jslint es6, node, browser, maxlen: 120 */
 /*global self, window */
 
-"use strict";
-
-module.exports = (function () {
+module.exports = function () {
 
     "use strict";
 
-    var globalObject = undefined;
+    var globalObject = void 0;
 
     function isFunction(x) {
         return typeof x === "function";
@@ -26,7 +26,7 @@ module.exports = (function () {
     // implementation appears to conform to the specificaton.
     // This code mostly nicked from the es6-promise module polyfill
     // and then fooled with.
-    var hasPromiseSupport = (function () {
+    var hasPromiseSupport = function () {
 
         // No promise object at all, and it's a non-starter
         if (!globalObject.hasOwnProperty("Promise")) {
@@ -48,10 +48,11 @@ module.exports = (function () {
 
         // Older version of the spec had a resolver object
         // as the arg rather than a function
-        return (function () {
+        return function () {
 
-            var resolve = undefined,
-                p = new globalObject.Promise(function (r) {
+            var resolve = void 0;
+
+            var p = new globalObject.Promise(function (r) {
                 resolve = r;
             });
 
@@ -60,8 +61,8 @@ module.exports = (function () {
             }
 
             return false;
-        })();
-    })();
+        }();
+    }();
 
     // Export the native Promise implementation if it
     // looks like it matches the spec
@@ -71,4 +72,4 @@ module.exports = (function () {
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
     return require("es6-promise").Promise;
-})();
+}();

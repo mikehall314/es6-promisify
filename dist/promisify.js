@@ -1,89 +1,67 @@
-/*jslint node, this, es6, maxlen: 120 */
 "use strict";
 
-module.exports = (function () {
+/*jslint node, this, es6, maxlen: 120 */
+module.exports = function () {
 
     "use strict";
 
     // Get a promise object. This may be native, or it may be polyfilled
+
     var ES6Promise = require("./promise.js");
 
-    // Promise Context object constructor.
-    function Context(resolve, reject, custom) {
-        this.resolve = resolve;
-        this.reject = reject;
-        this.custom = custom;
-    }
-
-    // Default callback function - rejects on truthy error, otherwise resolves
-    function callback() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        var ctx = args.shift(),
-            err = args.shift(),
-            cust = undefined;
-
-        args = args.length > 1 ? args : args[0];
-
-        if (typeof ctx.custom === 'function') {
-            cust = function () {
-                for (var _len2 = arguments.length, custArgs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                    custArgs[_key2] = arguments[_key2];
-                }
-
-                // Bind the callback to itself, so the resolve and reject
-                // properties that we bound are available to the callback.
-                // Then we push it onto the end of the arguments array.
-                return ctx.custom.apply(cust, custArgs);
-            };
-            cust.resolve = ctx.resolve;
-            cust.reject = ctx.reject;
-            cust.call(null, err, args);
-        } else {
-            if (err) {
-                return ctx.reject(err);
-            }
-            ctx.resolve(args);
-        }
-    }
-
     /**
-     * promisify
+     * promisify()
      *
      * Transforms callback-based function -- func(arg1, arg2 .. argN, callback) -- into
-     * an ES6-compatible Promise. User can provide their own callback function; otherwise
-     * promisify provides a callback of the form (error, result) and rejects on truthy error.
-     * If supplying your own callback function, use this.resolve() and this.reject().
+     * an ES6-compatible Promise. Promisify provides a default callback of the form (error, result)
+     * and rejects when `error` is truthy. You can also supply settings object as the second argument.
      *
      * @param {function} original - The function to promisify
-     * @param {function} callback - Optional custom callbac function
-     *
-     * @return {function} A promisified version of 'original'
+     * @param {object} settings - Settings object
+     * @param {object} settings.thisArg - A `this` context to use. If not set, assume `settings` _is_ `thisArg`
+     * @param {bool} settings.multiArgs - Should multiple arguments be returned as an array?
+     * @return {function} A promisified version of `original`
      */
-    return function (original, custom) {
+    return function promisify(original, settings) {
 
         return function () {
-            for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                args[_key3] = arguments[_key3];
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
             }
 
-            // Store original context
-            var that = this;
+            var returnMultipleArguments = settings && settings.multiArgs;
+
+            var that = undefined;
+            if (settings && settings.thisArg) {
+                that = settings.thisArg;
+            } else if (settings) {
+                that = settings;
+            }
 
             // Return the promisified function
             return new ES6Promise(function (resolve, reject) {
 
-                // Create a Context object
-                var ctx = new Context(resolve, reject, custom);
-
                 // Append the callback bound to the context
-                args.push(callback.bind(null, ctx));
+                args.push(function callback(err) {
+
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                        args[_key2 - 1] = arguments[_key2];
+                    }
+
+                    if (false === !!returnMultipleArguments) {
+                        return resolve(args[0]);
+                    }
+
+                    resolve(args);
+                });
 
                 // Call the function
                 original.apply(that, args);
             });
         };
     };
-})();
+}();

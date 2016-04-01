@@ -18,11 +18,11 @@ npm install --save es6-promisify
 "use strict";
 
 // Declare variables
-var promisify = require("es6-promisify"),
-    fs = require("fs"),
+const promisify = require("es6-promisify");
+const fs = require("fs");
 
 // Convert the stat function
-    stat = promisify(fs.stat);
+const stat = promisify(fs.stat);
 
 // Now usable as a promise!
 stat("example.txt").then(function (stats) {
@@ -32,49 +32,51 @@ stat("example.txt").then(function (stats) {
 });
 ```
 
-## Provide your own callback
-```js
-"use strict";
-
-// Declare variables
-var promisify = require("es6-promisify"),
-    fs = require("fs"),
-    stat;
-
-// Convert the stat function, with a custom callback
-stat = promisify(fs.stat, function (err, result) {
-    if (err) {
-        console.error(err);
-        return this.reject("Could not stat file");
-    }
-    this.resolve(result);
-});
-
-stat("example.txt").then(function (stats) {
-    console.log("Got stats", stats);
-}).catch(function (err) {
-    // err = "Could not stat file"
-});
-```
-
 ## Promisify methods
 ```js
 "use strict";
 
 // Declare variables
-var promisify = require("es6-promisify"),
-    redis = require("redis").createClient(6379, "localhost"),
+const promisify = require("es6-promisify");
+const redis = require("redis").createClient(6379, "localhost");
 
 // Create a promise-based version of send_command
-    client = promisify(redis.send_command.bind(redis));
+const client = promisify(redis.send_command, redis);
 
 // Send commands to redis and get a promise back
-client("ping", []).then(function (pong) {
+client("ping").then(function (pong) {
     console.log("Got", pong);
 }).catch(function (err) {
     console.error("Unexpected error", err);
 }).then(function () {
     redis.quit();
+});
+```
+
+## Handle callback multiple arguments
+```js
+"use strict";
+
+// Declare functions
+function test(cb) {
+    return cb(undefined, 1, 2, 3);
+}
+
+// Declare variables
+const promisify = require("es6-promisify");
+
+// Create promise-based version of test
+const single = promisify(test);
+const multi = promisify(test, {multiArgs: true});
+
+// Discards additional arguments
+single().then(function (result) {
+    console.log(result); // 1
+});
+
+// Returns all arguments as an array
+multi().then(function (result) {
+    console.log(result); // [1, 2, 3]
 });
 ```
 
