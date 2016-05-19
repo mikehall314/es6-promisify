@@ -12,7 +12,7 @@ module.exports = (function () {
         if (fail) {
             return callback("error");
         }
-        callback(null, "success");
+        callback(undefined, "success");
     }
 
     // Test object. If the "method" method can see the things
@@ -22,7 +22,7 @@ module.exports = (function () {
         thing: true,
         method: function (callback) {
             if (this && this.thing) {
-                return callback(null, "thing");
+                return callback(undefined, "thing");
             }
             callback("error");
         }
@@ -36,9 +36,9 @@ module.exports = (function () {
 
             var promisified = promisify(standard);
 
-            // Call the function, with fail == null.
+            // Call the function, with fail == undefined.
             // Should resolve correctly, with the string "success".
-            promisified(null).then(function kept(success) {
+            promisified(undefined).then(function kept(success) {
 
                 // String should equal success.
                 test.equal(success, "success", "Unexpected return value");
@@ -138,7 +138,7 @@ module.exports = (function () {
             var promisified = promisify(function (cb) {
                 setTimeout(function () {
                     counter += 1;
-                    cb(null, counter);
+                    cb(undefined, counter);
                 }, 50);
             });
 
@@ -155,7 +155,7 @@ module.exports = (function () {
 
             var promisified = promisify(function (cb) {
                 setTimeout(function () {
-                    cb(null, 1, 2, 3);
+                    cb(undefined, 1, 2, 3);
                 });
             }, {multiArgs: true});
 
@@ -168,7 +168,7 @@ module.exports = (function () {
 
             var promisified = promisify(function (cb) {
                 setTimeout(function () {
-                    cb(null, 1, 2, 3);
+                    cb(undefined, 1, 2, 3);
                 });
             }, {multiArgs: false});
 
@@ -181,7 +181,7 @@ module.exports = (function () {
 
             var promisified = promisify(function (cb) {
                 setTimeout(function () {
-                    cb(null, 1);
+                    cb(undefined, 1);
                 });
             }, {multiArgs: true});
 
