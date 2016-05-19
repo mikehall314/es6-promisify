@@ -48,7 +48,9 @@ module.exports = (function () {
                 // Shouldn't get in here.
                 test.ok(false, "Unexpected rejection: " + because);
 
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisify function (reject)": function (test) {
@@ -69,7 +71,9 @@ module.exports = (function () {
                 // Should reject and land in here.
                 test.equal(because, "error", "Unexpected error value");
 
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisify method": function (test) {
@@ -89,7 +93,9 @@ module.exports = (function () {
                 // We shouldn't get in here, if we do we rejected unexpectedly
                 test.ok(false, "Unexpected rejection: " + because);
 
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisify method (broken context)": function (test) {
@@ -109,7 +115,9 @@ module.exports = (function () {
                 // Should reject the promise and land in here.
                 test.equal(because, "error", "Unexpected error value");
 
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisify method (explicit context)": function (test) {
@@ -129,7 +137,9 @@ module.exports = (function () {
                 // We shouldn't get in here, if we do we rejected unexpectedly
                 test.ok(false, "Unexpected rejection: " + because);
 
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisified function called multiple times": function (test) {
@@ -148,7 +158,9 @@ module.exports = (function () {
                 promisified()
             ]).then(function (results) {
                 test.deepEqual(results, [1, 2, 3], "Unexpected result array");
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisified function callback with multiple arguments (retained)": function (test) {
@@ -161,7 +173,9 @@ module.exports = (function () {
 
             promisified().then(function (result) {
                 test.deepEqual(result, [1, 2, 3], "Unexpected result array");
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisified function callback with multiple arguments (discarded)": function (test) {
@@ -174,7 +188,9 @@ module.exports = (function () {
 
             promisified().then(function (result) {
                 test.deepEqual(result, 1, "Unexpected result array");
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisified function callback with single args (multiArgs enabled)": function (test) {
@@ -187,7 +203,9 @@ module.exports = (function () {
 
             promisified().then(function (result) {
                 test.deepEqual(result, [1], "Unexpected result array");
-            }).then(test.done);
+            }).then(function () {
+                test.done();
+            });
         },
 
         "promisifying a promise": function (test) {
