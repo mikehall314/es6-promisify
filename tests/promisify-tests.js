@@ -188,6 +188,54 @@ module.exports = (function () {
             promisified().then(function (result) {
                 test.deepEqual(result, [1], "Unexpected result array");
             }).then(test.done);
+        },
+
+        "promisifying a promise": function (test) {
+
+            test.expect(1);
+
+            // Promisify a something which returns a promise
+            var twice = promisify(promisify(standard));
+
+            // Call the function, with fail == undefined.
+            // Should resolve correctly, with the string "success".
+            twice(undefined).then(function kept(success) {
+
+                // String should equal success.
+                test.equal(success, "success", "Unexpected return value");
+
+            }, function broken(because) {
+
+                // Shouldn't get in here.
+                test.ok(false, "Unexpected rejection: " + because);
+
+            }).then(function () {
+                test.done();
+            });
+        },
+
+        "promisifying a promise (reject)": function (test) {
+
+            test.expect(1);
+
+            // Promisify a something which returns a promise
+            var twice = promisify(promisify(standard));
+
+            // Call the function, with fail == true.
+            // Should reject the promise with the string "error".
+            twice(true).then(function kept() {
+
+                // Shouldn't get in here.
+                test.ok(false, "Unexpected kept promise");
+
+            }, function broken(because) {
+
+                // Should reject and land in here.
+                test.equal(because, "error", "Unexpected error value");
+
+            }).then(function () {
+                test.done();
+            });
         }
     };
 }());

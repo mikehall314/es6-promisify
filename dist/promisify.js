@@ -10,6 +10,18 @@ module.exports = function () {
     var ES6Promise = require("./promise.js");
 
     /**
+     * thatLooksLikeAPromiseToMe()
+     *
+     * Duck-types a promise.
+     *
+     * @param {object} o
+     * @return {bool} True if this resembles a promise
+     */
+    function thatLooksLikeAPromiseToMe(o) {
+        return o && typeof o.then === "function" && typeof o.catch === "function";
+    }
+
+    /**
      * promisify()
      *
      * Transforms callback-based function -- func(arg1, arg2 .. argN, callback) -- into
@@ -60,7 +72,13 @@ module.exports = function () {
                 });
 
                 // Call the function
-                original.apply(that, args);
+                var response = original.apply(that, args);
+
+                // If it looks like original already returns a promise,
+                // then just resolve with that promise. Hopefully, the callback function we added will just be ignored.
+                if (thatLooksLikeAPromiseToMe(response)) {
+                    resolve(response);
+                }
             });
         };
     };
