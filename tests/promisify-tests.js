@@ -1,10 +1,12 @@
-/*jslint node, this, maxlen: 120 */
+/* global require, module */
 module.exports = (function () {
 
     "use strict";
 
-    var ES6Promise = require("../dist/promise.js");
-    var promisify = require("../dist/promisify.js");
+    var ES6Promise, promisify, o;
+
+    ES6Promise = require("../dist/promise.js");
+    promisify = require("../dist/promisify.js");
 
     // Test function. If fail is true, will callback with an error.
     // Otherwise, will callback with the string "success".
@@ -18,7 +20,7 @@ module.exports = (function () {
     // Test object. If the "method" method can see the things
     // in its parent, then it will callback with "thing".
     // Otherwise, will error with the string "error".
-    var o = {
+    o = {
         thing: true,
         method: function (callback) {
             if (this && this.thing) {
@@ -32,9 +34,11 @@ module.exports = (function () {
 
         "promisify function": function (test) {
 
+            var promisified;
+
             test.expect(1);
 
-            var promisified = promisify(standard);
+            promisified = promisify(standard);
 
             // Call the function, with fail == undefined.
             // Should resolve correctly, with the string "success".
@@ -55,9 +59,11 @@ module.exports = (function () {
 
         "promisify function (reject)": function (test) {
 
+            var promisified;
+
             test.expect(1);
 
-            var promisified = promisify(standard);
+            promisified = promisify(standard);
 
             // Call the function, with fail == true.
             // Should reject the promise with the string "error".
@@ -78,10 +84,12 @@ module.exports = (function () {
 
         "promisify method": function (test) {
 
+            var promisified;
+
             test.expect(1);
 
             // Promisify a method, supplying a thisArg
-            var promisified = promisify(o.method, o);
+            promisified = promisify(o.method, o);
 
             promisified().then(function kept(thing) {
 
@@ -100,10 +108,12 @@ module.exports = (function () {
 
         "promisify method (broken context)": function (test) {
 
+            var promisified;
+
             test.expect(1);
 
             // Promisify a method, without a thisArg
-            var promisified = promisify(o.method);
+            promisified = promisify(o.method);
 
             promisified().then(function kept() {
 
@@ -122,10 +132,12 @@ module.exports = (function () {
 
         "promisify method (explicit context)": function (test) {
 
+            var promisified;
+
             test.expect(1);
 
             // Promisify a method, supplying a thisArg in an options object
-            var promisified = promisify(o.method, {thisArg: o});
+            promisified = promisify(o.method, {thisArg: o});
 
             promisified().then(function kept(thing) {
 
@@ -144,12 +156,16 @@ module.exports = (function () {
 
         "promisified function called multiple times": function (test) {
 
-            var counter = 0;
-            var promisified = promisify(function (cb) {
+            var promisified, counter;
+
+            test.expect(1);
+
+            counter = 0;
+            promisified = promisify(function (cb) {
                 setTimeout(function () {
                     counter += 1;
                     cb(undefined, counter);
-                }, 50);
+                }, 10);
             });
 
             ES6Promise.all([
@@ -165,10 +181,12 @@ module.exports = (function () {
 
         "promisified function callback with multiple arguments (retained)": function (test) {
 
-            var promisified = promisify(function (cb) {
-                setTimeout(function () {
-                    cb(undefined, 1, 2, 3);
-                });
+            var promisified;
+
+            test.expect(1);
+
+            promisified = promisify(function (cb) {
+                setTimeout(cb, 10, undefined, 1, 2, 3);
             }, {multiArgs: true});
 
             promisified().then(function (result) {
@@ -180,10 +198,12 @@ module.exports = (function () {
 
         "promisified function callback with multiple arguments (discarded)": function (test) {
 
-            var promisified = promisify(function (cb) {
-                setTimeout(function () {
-                    cb(undefined, 1, 2, 3);
-                });
+            var promisified;
+
+            test.expect(1);
+
+            promisified = promisify(function (cb) {
+                setTimeout(cb, 10, undefined, 1, 2, 3);
             }, {multiArgs: false});
 
             promisified().then(function (result) {
@@ -195,10 +215,12 @@ module.exports = (function () {
 
         "promisified function callback with single args (multiArgs enabled)": function (test) {
 
-            var promisified = promisify(function (cb) {
-                setTimeout(function () {
-                    cb(undefined, 1);
-                });
+            var promisified;
+
+            test.expect(1);
+
+            promisified = promisify(function (cb) {
+                setTimeout(cb, 10, undefined, 1);
             }, {multiArgs: true});
 
             promisified().then(function (result) {
@@ -210,10 +232,12 @@ module.exports = (function () {
 
         "promisifying a promise": function (test) {
 
+            var twice;
+
             test.expect(1);
 
             // Promisify a something which returns a promise
-            var twice = promisify(promisify(standard));
+            twice = promisify(promisify(standard));
 
             // Call the function, with fail == undefined.
             // Should resolve correctly, with the string "success".
@@ -234,10 +258,12 @@ module.exports = (function () {
 
         "promisifying a promise (reject)": function (test) {
 
+            var twice;
+
             test.expect(1);
 
             // Promisify a something which returns a promise
-            var twice = promisify(promisify(standard));
+            twice = promisify(promisify(standard));
 
             // Call the function, with fail == true.
             // Should reject the promise with the string "error".

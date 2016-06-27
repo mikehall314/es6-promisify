@@ -1,6 +1,6 @@
 "use strict";
 
-/*jslint node, this, es6, maxlen: 120 */
+/* global module, require */
 module.exports = function () {
 
     "use strict";
@@ -43,11 +43,11 @@ module.exports = function () {
 
             var returnMultipleArguments = settings && settings.multiArgs;
 
-            var that = undefined;
+            var target = void 0;
             if (settings && settings.thisArg) {
-                that = settings.thisArg;
+                target = settings.thisArg;
             } else if (settings) {
-                that = settings;
+                target = settings;
             }
 
             // Return the promisified function
@@ -60,19 +60,19 @@ module.exports = function () {
                         return reject(err);
                     }
 
-                    for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                        args[_key2 - 1] = arguments[_key2];
+                    for (var _len2 = arguments.length, values = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                        values[_key2 - 1] = arguments[_key2];
                     }
 
                     if (false === !!returnMultipleArguments) {
-                        return resolve(args[0]);
+                        return resolve(values[0]);
                     }
 
-                    resolve(args);
+                    resolve(values);
                 });
 
                 // Call the function
-                var response = original.apply(that, args);
+                var response = original.apply(target, args);
 
                 // If it looks like original already returns a promise,
                 // then just resolve with that promise. Hopefully, the callback function we added will just be ignored.

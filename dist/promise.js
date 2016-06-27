@@ -1,8 +1,6 @@
 "use strict";
 
-/*jslint es6, node, browser, maxlen: 120 */
-/*global self, window */
-
+/* global self, window, module, global, require */
 module.exports = function () {
 
     "use strict";

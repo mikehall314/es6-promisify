@@ -1,0 +1,194 @@
+parserOptions:
+    ecmaVersion: 6
+
+env:
+    es6: true                # Required for things like Promise constructors to be recognized
+    browser: true
+
+rules:
+
+    # Possible Errors
+
+    comma-dangle: ["error", "never"]           # disallow trailing commas
+    no-cond-assign:  ["error", "always"]       # disallow assignment operators in conditional expressions
+    no-console: "warn"                         # disallow the use of console
+    no-constant-condition: "error"             # disallow constant expressions in conditions
+    no-control-regex: "error"                  # disallow control characters in regular expressions
+    no-debugger: "error"                       # disallow the use of debugger
+    no-dupe-args: "error"                      # disallow duplicate arguments in function definitions
+    no-dupe-keys: "error"                      # disallow duplicate keys in object literals
+    no-duplicate-case: "error"                 # disallow duplicate case labels
+    no-empty: "error"                          # disallow empty block statements
+    no-empty-character-class: "error"          # disallow empty character classes in regular expressions
+    no-ex-assign: "error"                      # disallow reassigning exceptions in catch clauses
+    no-extra-boolean-cast: "error"             # disallow unnecessary boolean casts
+    no-extra-parens: 0                         # disallow unnecessary parentheses
+    no-extra-semi: "error"                     # disallow unnecessary semicolons
+    no-func-assign: "error"                    # disallow reassigning function declarations
+    no-inner-declarations: "error"             # disallow function or var declarations in nested blocks
+    no-invalid-regexp: "error"                 # disallow invalid regular expression strings in RegExp constructors
+    no-irregular-whitespace: "error"           # disallow irregular whitespace outside of strings and comments
+    no-negated-in-lhs: "error"                 # disallow negating the left operand in in expressions
+    no-obj-calls: "error"                      # disallow calling global object properties as functions
+    no-regex-spaces: "error"                   # disallow multiple spaces in regular expression literals
+    no-sparse-arrays: "error"                  # disallow sparse arrays
+    no-unexpected-multiline: "error"           # disallow confusing multiline expressions
+    no-unreachable: "error"                    # disallow unreachable code after return, throw, continue, and break statements
+    no-unsafe-finally: "error"                 # disallow control flow statements in finally blocks
+    use-isnan: "error"                         # require calls to isNaN() when checking for NaN
+    valid-jsdoc: 0                             # enforce valid JSDoc comments
+    valid-typeof: "error"                      # enforce comparing typeof expressions against valid strings
+
+
+    # Best Practice
+
+    accessor-pairs: "error"                    # enforces getter/setter pairs in objects (off by default)
+    block-scoped-var: "error"                  # treat var statements as if they were block scoped (off by default)
+    complexity: 0                              # specify the maximum cyclomatic complexity allowed in a program (off by default)
+    consistent-return: 0                       # require return statements to either always or never specify values
+    curly: ["error", "all"]                    # specify curly brace conventions for all control statements
+    default-case: "error"                      # require default case in switch statements (off by default)
+    dot-notation: "error"                      # encourages use of dot notation whenever possible
+    dot-location: ["error", "property"]        # enforces consistent newlines before or after dots (off by default)
+    eqeqeq: "error"                            # require the use of === and !==
+    guard-for-in: "error"                      # make sure for-in loops have an if statement (off by default)
+    no-alert: "error"                          # disallow the use of alert, confirm, and prompt
+    no-caller: "error"                         # disallow use of arguments.caller or arguments.callee
+    no-confusing-arrow: "error"                # disallow arrow functions where they could be confused with comparisons
+    no-div-regex: "error"                      # disallow division operators explicitly at beginning of regular expression (off by default)
+    no-else-return: "error"                    # disallow else after a return in an if (off by default)
+    no-eq-null: "error"                        # disallow comparisons to null without a type-checking operator (off by default)
+    no-eval: "error"                           # disallow use of eval()
+    no-extend-native: "error"                  # disallow adding to native types
+    no-extra-bind: "error"                     # disallow unnecessary function binding
+    no-fallthrough: "error"                    # disallow fallthrough of case statements
+    no-floating-decimal: "error"               # disallow the use of leading or trailing decimal points in numeric literals (off by default)
+    no-implied-eval: "error"                   # disallow use of eval()-like methods
+    no-iterator: "error"                       # disallow usage of __iterator__ property
+    no-labels: "error"                         # disallow use of labeled statements
+    no-lone-blocks: "error"                    # disallow unnecessary nested blocks
+    no-loop-func: "error"                      # disallow creation of functions within loops
+    no-multi-spaces: "error"                   # disallow use of multiple spaces
+    no-multi-str: "error"                      # disallow use of multiline strings
+    no-native-reassign: "error"                # disallow reassignments of native objects
+    no-new-func: "error"                       # disallow use of new operator for Function object
+    no-new-wrappers: "error"                   # disallows creating new instances of String, Number, and Boolean
+    no-new: "error"                            # disallow use of new operator when not part of the assignment or comparison
+    no-octal-escape: "error"                   # disallow use of octal escape sequences in string literals, such as var foo = "Copyright \251";
+    no-octal: "error"                          # disallow use of octal literals
+    no-param-reassign: 0                       # disallow reassignment of function parameters (off by default)
+    no-process-env: 0                          # disallow use of process.env (off by default)
+    no-proto: "error"                          # disallow usage of __proto__ property
+    no-redeclare: "error"                      # disallow declaring the same variable more then once
+    no-return-assign: "error"                  # disallow use of assignment in return statement
+    no-script-url: "error"                     # disallow use of javascript: urls
+    no-self-compare: "error"                   # disallow comparisons where both sides are exactly the same (off by default)
+    no-sequences: "error"                      # disallow use of comma operator
+    no-throw-literal: "error"                  # restrict what can be thrown as an exception (off by default)
+    no-unused-expressions: "error"             # disallow usage of expressions in statement position
+    no-void: "error"                           # disallow use of void operator (off by default)
+    no-warning-comments: "warn"                # disallow usage of configurable erroring terms in comments, e.g. TODO or FIXME (off by default)
+    no-with: "error"                           # disallow use of the with statement
+    radix: "error"                             # require use of the second argument for parseInt() (off by default)
+    vars-on-top: "error"                       # requires to declare all vars on top of their containing scope (off by default)
+    wrap-iife: "error"                         # require immediate function invocation to be wrapped in parentheses (off by default)
+    yoda: 0                                    # require or disallow Yoda conditions
+
+
+    # Strict Mode
+
+    strict: "error"          # controls location of Use Strict Directives
+
+
+    # Variables
+
+    no-catch-shadow: "error"                   # disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
+    no-delete-var: 0                           # disallow deletion of variables
+    no-label-var: "error"                      # disallow labels that share a name with a variable
+    no-shadow: "error"                         # disallow declaration of variables already declared in the outer scope
+    no-shadow-restricted-names: "error"        # disallow shadowing of names such as arguments
+    no-undef: "error"                          # disallow use of undeclared variables unless mentioned in a /*global */ block
+    no-undef-init: "error"                     # disallow use of undefined when initializing variables
+    no-undefined: 0                            # disallow use of undefined variable (off by default)
+    no-unused-vars: "error"                    # disallow declaration of variables that are not used in the code
+    no-use-before-define: ["error", "nofunc"]  # disallow use of variables before they are defined
+
+
+    # Node.js
+
+    handle-callback-err: "warn"        # enforces error handling in callbacks (off by default) (on by default in the node environment)
+    no-mixed-requires: "error"         # disallow mixing regular variable and require declarations (off by default) (on by default in the node environment)
+    no-new-require: "error"            # disallow use of new operator with the require function (off by default) (on by default in the node environment)
+    no-path-concat: "error"            # disallow string concatenation with __dirname and __filename (off by default) (on by default in the node environment)
+    no-process-exit: 0                 # disallow process.exit() (on by default in the node environment)
+    no-restricted-modules: 0           # restrict usage of specified node modules (off by default)
+    no-sync: "warn"                    # disallow use of synchronous methods (off by default)
+
+
+    # Stylistic Issues
+
+    array-bracket-spacing: ["error", "never"]                                  # enforce spacing inside array brackets (off by default)
+    brace-style: ["error", "1tbs"]                                             # enforce one true brace style (off by default)
+    camelcase: "error"                                                         # require camel case names
+    comma-spacing: ["error", {before: false, after: true}]                     # enforce spacing before and after comma
+    comma-style: ["error", "last"]                                             # enforce one true comma style (off by default)
+    computed-property-spacing: ["error", "never"]                              # require or disallow padding inside computed properties (off by default)
+    consistent-this: ["error", "that"]                                         # enforces consistent naming when capturing the current execution context (off by default)
+    eol-last: "error"                                                          # enforce newline at the end of file, with no multiple empty lines
+    func-names: 0                                                              # require function expressions to have a name (off by default)
+    func-style: 0                                                              # enforces use of function declarations or expressions (off by default)
+    indent: ["error", 4]                                                       # this option sets a specific tab width for your code (off by default)
+    key-spacing: ["error", {beforeColon: false, afterColon: true}]             # enforces spacing between keys and values in object literal properties
+    lines-around-comment: 0                                                    # enforces empty lines around comments (off by default)
+    linebreak-style: ["error", "unix"]                                         # disallow mixed 'LF' and 'CRLF' as linebreaks (off by default)
+    max-nested-callbacks: ["error", 5]                                         # require a capital letter for constructors
+    new-parens: "error"                                                        # allow/disallow an empty newline after var statement (off by default)
+    no-array-constructor: "error"                                              # disallow use of the Array constructor
+    no-continue: "error"                                                       # disallow use of the continue statement (off by default)
+    no-inline-comments: 0                                                      # disallow comments inline after code (off by default)
+    no-lonely-if: "error"                                                      # disallow if as the only statement in an else block (off by default)
+    no-mixed-spaces-and-tabs: "error"                                          # disallow mixed spaces and tabs for indentation
+    no-multiple-empty-lines: 0                                                 # disallow multiple empty lines (off by default)
+    no-nested-ternary: "error"                                                 # disallow nested ternary expressions (off by default)
+    no-new-object: 0                                                           # disallow use of the Object constructor
+    no-spaced-func: "error"                                                    # disallow space between function identifier and application
+    no-ternary: 0                                                              # disallow the use of ternary operators (off by default)
+    no-trailing-spaces: "error"                                                # disallow trailing whitespace at the end of lines
+    no-underscore-dangle: "error"                                              # disallow dangling underscores in identifiers
+    one-var: 0                                                                 # allow just one var statement per function (off by default)
+    operator-assignment: ["error", "always"]                                   # require assignment operator shorthand where possible or prohibit it entirely (off by default)
+    operator-linebreak: ["error", "before"]                                    # enforce operators to be placed before or after line breaks (off by default)
+    padded-blocks: 0                                                           # enforce padding within blocks (off by default)
+    quote-props: 0                                                             # require quotes around object literal property names (off by default)
+    quotes: ["error", "double", {allowTemplateLiterals: true}]                 # specify whether double or single quotes should be used
+    semi-spacing: ["error", {before: false, after: true}]                      # enforce spacing before and after semicolons
+    semi: ["error", "always"]                                                  # require or disallow use of semicolons instead of ASI
+    sort-vars: 0                                                               # sort variables within the same declaration block (off by default)
+    keyword-spacing: ["error", {before: true, after: true}]                    # require a space before or after certain keywords
+    space-before-blocks: ["error", "always"]                                   # require or disallow space before blocks (off by default)
+    space-before-function-paren: ["error", {anonymous: always, named: never}]  # require or disallow space before function opening parenthesis (off by default)
+    space-in-parens: ["error", "never"]                                        # require or disallow spaces inside parentheses (off by default)
+    space-infix-ops: "error"                                                   # require spaces around operators
+    space-unary-ops: "error"                                                   # require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
+    spaced-comment: ["error", "always"]                                        # require or disallow a space immediately following the # or /* in a comment (off by default)
+    wrap-regex: "error"                                                        # require regex literals to be wrapped in parentheses (off by default)
+
+
+    # ECMAScript 6
+
+    constructor-super: "error"         # verify super() callings in constructors (off by default)
+    generator-star-spacing: 0          # enforce the spacing around the * in generator functions (off by default)
+    no-this-before-super: "error"      # disallow to use this/super before super() calling in constructors (off by default)
+    no-var: "error"                    # require let or const instead of var (off by default)
+    object-shorthand: 0                # require method and property shorthand syntax for object literals (off by default)
+    prefer-const: "error"              # suggest using of const declaration for variables that are never modified after declared (off by default)
+
+
+    # Legacy
+
+    max-depth: ["error", 5]            # specify the maximum depth that blocks can be nested (off by default)
+    max-len: ["error", 120]            # specify the maximum length of a line in your program (off by default)
+    max-params: ["error", 4]           # limits the number of parameters that can be used in the function declaration. (off by default)
+    max-statements: 0                  # specify the maximum number of statement allowed in a function (off by default)
+    no-bitwise: "error"                # disallow use of bitwise operators (off by default)
+    no-plusplus: "error"               # disallow use of unary operators, ++ and -- (off by default)
