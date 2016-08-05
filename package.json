@@ -32,5 +32,10 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "nodeunit": "^0.9.1"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "eslint"
+    ]
   }
 }
