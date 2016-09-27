@@ -11,7 +11,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "es6-promise": "^3.2.1"
+    "es6-promise": "^4.0.1"
   },
   "scripts": {
     "pretest": "./node_modules/eslint/bin/eslint.js ./lib/*.js ./tests/*.js",
