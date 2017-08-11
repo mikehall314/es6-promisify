@@ -27,7 +27,7 @@ module.exports = function () {
     var hasPromiseSupport = function () {
 
         // No promise object at all, and it's a non-starter
-        if (!globalObject.hasOwnProperty("Promise")) {
+        if ((globalObject === undefined) || (globalObject.hasOwnProperty === undefined) || !globalObject.hasOwnProperty("Promise")) {
             return false;
         }
 
