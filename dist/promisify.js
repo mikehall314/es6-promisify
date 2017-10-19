@@ -1,85 +1,84 @@
 "use strict";
 
-/* global module, require */
-module.exports = function () {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+// Symbols is a better way to do this, but if we don't have support we'll just
+// have to make do with an unlikely token
+var customArgumentsToken = Symbol ? Symbol("__ES6-PROMISIFY--CUSTOM-ARGUMENTS__") : "__ES6-PROMISIFY--CUSTOM-ARGUMENTS__";
 
-    "use strict";
+/**
+ * promisify()
+ * Transforms callback-based function -- func(arg1, arg2 .. argN, callback) -- into
+ * an ES6-compatible Promise. Promisify provides a default callback of the form (error, result)
+ * and rejects when `error` is truthy.
+ *
+ * @param {function} original - The function to promisify
+ * @return {function} A promisified version of `original`
+ */
+function promisify(original) {
 
-    // Get a promise object. This may be native, or it may be polyfilled
-
-    var ES6Promise = require("./promise.js");
-
-    /**
-     * thatLooksLikeAPromiseToMe()
-     *
-     * Duck-types a promise.
-     *
-     * @param {object} o
-     * @return {bool} True if this resembles a promise
-     */
-    function thatLooksLikeAPromiseToMe(o) {
-        return o && typeof o.then === "function" && typeof o.catch === "function";
+    // Ensure the argument is a function
+    if (typeof original !== "function") {
+        throw new TypeError("Argument to promisify must be a function");
     }
 
-    /**
-     * promisify()
-     *
-     * Transforms callback-based function -- func(arg1, arg2 .. argN, callback) -- into
-     * an ES6-compatible Promise. Promisify provides a default callback of the form (error, result)
-     * and rejects when `error` is truthy. You can also supply settings object as the second argument.
-     *
-     * @param {function} original - The function to promisify
-     * @param {object} settings - Settings object
-     * @param {object} settings.thisArg - A `this` context to use. If not set, assume `settings` _is_ `thisArg`
-     * @param {bool} settings.multiArgs - Should multiple arguments be returned as an array?
-     * @return {function} A promisified version of `original`
-     */
-    return function promisify(original, settings) {
+    // If the user has asked us to decode argument names for them, honour that
+    var argumentNames = original[customArgumentsToken];
 
-        return function () {
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-            }
+    // If the user has supplied a custom Promise implementation, use it. Otherwise
+    // fall back to whatever we can find on the global object.
+    var ES6Promise = promisify.Promise || Promise;
 
-            var returnMultipleArguments = settings && settings.multiArgs;
+    // If we can find no Promise implemention, then fail now.
+    if (typeof ES6Promise !== "function") {
+        throw new Error("No Promise implementation found; do you need a polyfill?");
+    }
 
-            var target = void 0;
-            if (settings && settings.thisArg) {
-                target = settings.thisArg;
-            } else if (settings) {
-                target = settings;
-            }
+    return function () {
+        var _this = this;
 
-            // Return the promisified function
-            return new ES6Promise(function (resolve, reject) {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-                // Append the callback bound to the context
-                args.push(function callback(err) {
+        return new ES6Promise(function (resolve, reject) {
 
-                    if (err) {
-                        return reject(err);
+            // Append the callback bound to the context
+            args.push(function callback(err) {
+
+                if (err) {
+                    return reject(err);
+                }
+
+                for (var _len2 = arguments.length, values = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                    values[_key2 - 1] = arguments[_key2];
+                }
+
+                if (values.length === 1 || !argumentNames) {
+                    return resolve(values[0]);
+                }
+
+                var o = {};
+                values.forEach(function (value, index) {
+                    var name = argumentNames[index];
+                    if (name) {
+                        o[name] = value;
                     }
-
-                    for (var _len2 = arguments.length, values = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                        values[_key2 - 1] = arguments[_key2];
-                    }
-
-                    if (false === !!returnMultipleArguments) {
-                        return resolve(values[0]);
-                    }
-
-                    resolve(values);
                 });
 
-                // Call the function
-                var response = original.apply(target, args);
-
-                // If it looks like original already returns a promise,
-                // then just resolve with that promise. Hopefully, the callback function we added will just be ignored.
-                if (thatLooksLikeAPromiseToMe(response)) {
-                    resolve(response);
-                }
+                resolve(o);
             });
-        };
+
+            // Call the function.
+            original.call.apply(original, [_this].concat(args));
+        });
     };
-}();
+}
+
+// Attach this symbol to the exported function, so users can use it
+promisify.argumentNames = customArgumentsToken;
+promisify.Promise = undefined;
+
+// Export the public API
+exports.promisify = promisify;

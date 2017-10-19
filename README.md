@@ -1,27 +1,24 @@
 [![Travis CI](https://travis-ci.org/digitaldesignlabs/es6-promisify.svg)](https://travis-ci.org/digitaldesignlabs/es6-promisify)
 
 # es6-promisify
+Converts callback-based functions to ES6/ES2015 Promises, using a boilerplate callback function.
 
-Converts callback-based functions to Promise-based functions.
+NOTE: All-new API for Version 6.0.0; please read carefully!
+===========================================================
 
 ## Install
-
 Install with [npm](https://npmjs.org/package/es6-promisify)
 
 ```bash
-npm install --save es6-promisify
+npm install es6-promisify
 ```
 
 ## Example
-
 ```js
-"use strict";
-
-// Declare variables
-const promisify = require("es6-promisify");
-const fs = require("fs");
+const {promisify} = require("es6-promisify");
 
 // Convert the stat function
+const fs = require("fs");
 const stat = promisify(fs.stat);
 
 // Now usable as a promise!
@@ -34,14 +31,11 @@ stat("example.txt").then(function (stats) {
 
 ## Promisify methods
 ```js
-"use strict";
-
-// Declare variables
-const promisify = require("es6-promisify");
-const redis = require("redis").createClient(6379, "localhost");
+const {promisify} = require("es6-promisify");
 
 // Create a promise-based version of send_command
-const client = promisify(redis.send_command, redis);
+const redis = require("redis").createClient(6379, "localhost");
+const client = promisify(redis.send_command.bind(redis));
 
 // Send commands to redis and get a promise back
 client("ping").then(function (pong) {
@@ -53,37 +47,47 @@ client("ping").then(function (pong) {
 });
 ```
 
-## Handle callback multiple arguments
+## Handle multiple callback arguments, with named parameters
 ```js
-"use strict";
+const {promisify} = require("es6-promisify");
 
-// Declare functions
 function test(cb) {
     return cb(undefined, 1, 2, 3);
 }
 
-// Declare variables
-const promisify = require("es6-promisify");
-
 // Create promise-based version of test
-const single = promisify(test);
-const multi = promisify(test, {multiArgs: true});
+test[promisify.argumentNames] = ["one", "two", "three"];
+const multi = promisify(test);
 
-// Discards additional arguments
-single().then(function (result) {
-    console.log(result); // 1
+// Returns named arguments
+multi().then(result => {
+    console.log(result); // {one: 1, two: 2, three: 3}
 });
+```
 
-// Returns all arguments as an array
-multi().then(function (result) {
-    console.log(result); // [1, 2, 3]
+## Provide your own Promise implementation
+```js
+const {promisify} = require("es6-promisify");
+
+// Now uses Bluebird
+promisify.Promise = require("bluebird");
+
+const test = promisify(cb => cb(undefined, "test"));
+test().then(result => {
+    console.log(result); // "test", resolved using Bluebird
 });
 ```
 
 ### Tests
-Test with nodeunit
+Test with tape
 ```bash
 $ npm test
 ```
+
+### Changes from v5.0.0
+- Allow developer to specify a different implementations of `Promise`
+- No longer ships with a polyfill for `Promise`. If your environment has no native `Promise` you must polyfill yourself, or set `promisify.Promise` to an A+ compatible `Promise` implementation.
+- Removed support for `settings.thisArg`: use `.bind()` instead.
+- Removed support for `settings.multiArgs`: use named arguments instead.
 
 Published under the [MIT License](http://opensource.org/licenses/MIT).

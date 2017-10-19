@@ -1,9 +1,11 @@
+root: true
+
 parserOptions:
-    ecmaVersion: 6
+    ecmaVersion: 2015
 
 env:
-    es6: true                # Required for things like Promise constructors to be recognized
-    browser: true
+    es6: true
+    commonjs: true
 
 rules:
 
@@ -105,12 +107,12 @@ rules:
     no-catch-shadow: "error"                   # disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
     no-delete-var: 0                           # disallow deletion of variables
     no-label-var: "error"                      # disallow labels that share a name with a variable
-    no-shadow: "error"                         # disallow declaration of variables already declared in the outer scope
+    no-shadow: ["error", {"allow": ["_"]}]     # disallow declaration of variables already declared in the outer scope
     no-shadow-restricted-names: "error"        # disallow shadowing of names such as arguments
     no-undef: "error"                          # disallow use of undeclared variables unless mentioned in a /*global */ block
     no-undef-init: "error"                     # disallow use of undefined when initializing variables
     no-undefined: 0                            # disallow use of undefined variable (off by default)
-    no-unused-vars: "error"                    # disallow declaration of variables that are not used in the code
+    no-unused-vars: ["error", {"argsIgnorePattern": "^ignore|_$"}] # disallow declaration of variables that are not used in the code, unless they're named "_" or "ignore"
     no-use-before-define: ["error", "nofunc"]  # disallow use of variables before they are defined
 
 
@@ -182,7 +184,6 @@ rules:
     no-var: "error"                    # require let or const instead of var (off by default)
     object-shorthand: 0                # require method and property shorthand syntax for object literals (off by default)
     prefer-const: "error"              # suggest using of const declaration for variables that are never modified after declared (off by default)
-
 
     # Legacy
 
