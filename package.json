@@ -14,7 +14,8 @@
   "scripts": {
     "pretest": "./node_modules/.bin/eslint lib/*.js test/*.js",
     "build": "./node_modules/.bin/babel lib -d dist",
-    "test": "npm run build && ./node_modules/.bin/tape test"
+    "test": "npm run build && ./node_modules/.bin/tape test",
+    "test:cover": "npm run build && ./node_modules/.bin/istanbul cover test"
   },
   "bugs": "http://github.com/digitaldesignlabs/es6-promisify/issues",
   "files": [
@@ -29,6 +30,7 @@
     "babel-preset-es2015": "^6.24.1",
     "es6-promise": "^4.1.1",
     "eslint": "^4.9.0",
+    "istanbul": "^0.4.5",
     "sinon": "^4.0.1",
     "tape": "^4.8.0"
   },
