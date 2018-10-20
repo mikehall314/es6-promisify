@@ -3,9 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-// Symbols is a better way to do this, but if we don't have support we'll just
-// have to make do with an unlikely token
-var customArgumentsToken = Symbol ? Symbol("__ES6-PROMISIFY--CUSTOM-ARGUMENTS__") : "__ES6-PROMISIFY--CUSTOM-ARGUMENTS__";
+// Symbols is a better way to do this, but not all browsers have good support,
+// so instead we'll just make do with a very unlikely string.
+var customArgumentsToken = "__ES6-PROMISIFY--CUSTOM-ARGUMENTS__";
 
 /**
  * promisify()
