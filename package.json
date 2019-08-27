@@ -12,10 +12,10 @@
   "license": "MIT",
   "dependencies": {},
   "scripts": {
-    "pretest": "./node_modules/.bin/eslint lib/*.js test/*.js",
-    "build": "./node_modules/.bin/babel lib -d dist",
-    "test": "npm run build && ./node_modules/.bin/tape test",
-    "test:cover": "npm run build && ./node_modules/.bin/istanbul cover test"
+    "pretest": "npx eslint 'lib/*.js' 'test/*.js'",
+    "build": "npx babel lib -d dist",
+    "test": "npm run build && npx tape test",
+    "test:cover": "npm run build && npx nyc --reporter=lcov --all npx tape test"
   },
   "bugs": "http://github.com/digitaldesignlabs/es6-promisify/issues",
   "files": [
@@ -28,11 +28,11 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "es6-promise": "^4.2.5",
-    "eslint": "^5.7.0",
-    "istanbul": "^0.4.5",
-    "sinon": "^7.0.0",
-    "tape": "^4.9.1"
+    "es6-promise": "^4.2.8",
+    "eslint": "^6.2.2",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.1",
+    "tape": "^4.11.0"
   },
   "greenkeeper": {
     "ignore": [
