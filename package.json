@@ -27,17 +27,13 @@
     "url": "https://github.com/digitaldesignlabs/es6-promisify.git"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "es6-promise": "^4.2.8",
-    "eslint": "^6.2.2",
+    "eslint": "^5.16.0",
     "nyc": "^14.1.1",
     "sinon": "^7.4.1",
     "tape": "^4.11.0"
-  },
-  "greenkeeper": {
-    "ignore": [
-      "eslint"
-    ]
   }
 }
