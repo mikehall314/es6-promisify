@@ -12,10 +12,11 @@
   "license": "MIT",
   "dependencies": {},
   "scripts": {
-    "pretest": "npx eslint 'lib/*.js' 'test/*.js'",
-    "build": "npx babel lib -d dist",
-    "test": "npm run build && npx tape test",
-    "test:cover": "npm run build && npx nyc --reporter=lcov --all npx tape test"
+    "pretest": "./node_modules/.bin/eslint 'lib/*.js' 'test/*.js'",
+    "build": "./node_modules/.bin/babel lib -d dist",
+    "real-test": "./node_modules/.bin/tape test",
+    "test": "npm run build && npm run real-test",
+    "test:cover": "npm run build && ./node_modules/.bin/nyc --reporter=lcov --all npm run real-test"
   },
   "bugs": "http://github.com/digitaldesignlabs/es6-promisify/issues",
   "files": [
