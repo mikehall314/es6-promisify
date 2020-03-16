@@ -66,7 +66,7 @@ function promisify(original) {
         resolve(o);
       }); // Call the function.
 
-      original.call.apply(original, [_this].concat(args));
+      original.apply(_this, args);
     });
   };
 } // Attach this symbol to the exported function, so users can use it
