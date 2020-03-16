@@ -9,9 +9,9 @@ exports.promisify = promisify;
 var customArgumentsToken = "__ES6-PROMISIFY--CUSTOM-ARGUMENTS__";
 /**
  * promisify()
- * Transforms callback-based function -- func(arg1, arg2 .. argN, callback) -- into
- * an ES6-compatible Promise. Promisify provides a default callback of the form (error, result)
- * and rejects when `error` is truthy.
+ * Transforms callback-based function -- func(arg1, arg2 .. argN, callback) --
+ * into an ES6-compatible Promise. Promisify provides a default callback of the
+ * form (error, result) and rejects when `error` is truthy.
  *
  * @param {function} original - The function to promisify
  * @return {function} A promisified version of `original`
@@ -24,8 +24,8 @@ function promisify(original) {
   } // If the user has asked us to decode argument names for them, honour that
 
 
-  var argumentNames = original[customArgumentsToken]; // If the user has supplied a custom Promise implementation, use it. Otherwise
-  // fall back to whatever we can find on the global object.
+  var argumentNames = original[customArgumentsToken]; // If the user has supplied a custom Promise implementation, use it.
+  // Otherwise fall back to whatever we can find on the global object.
 
   var ES6Promise = promisify.Promise || Promise; // If we can find no Promise implemention, then fail now.
 
@@ -66,7 +66,7 @@ function promisify(original) {
         resolve(o);
       }); // Call the function.
 
-      original.call.apply(original, [_this].concat(args));
+      original.apply(_this, args);
     });
   };
 } // Attach this symbol to the exported function, so users can use it
