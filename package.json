@@ -12,11 +12,11 @@
   "license": "MIT",
   "dependencies": {},
   "scripts": {
-    "pretest": "./node_modules/.bin/eslint 'lib/*.js' 'test/*.js'",
-    "build": "./node_modules/.bin/babel lib -d dist",
-    "real-test": "./node_modules/.bin/tape test",
+    "pretest": "eslint 'lib/*.js' 'test/*.js'",
+    "build": "babel lib -d dist",
+    "real-test": "tape test",
     "test": "npm run build && npm run real-test",
-    "test:cover": "npm run build && ./node_modules/.bin/nyc --reporter=lcov --all npm run real-test"
+    "test:cover": "npm run build && nyc tape test"
   },
   "bugs": "http://github.com/digitaldesignlabs/es6-promisify/issues",
   "files": [
@@ -27,13 +27,15 @@
     "url": "https://github.com/digitaldesignlabs/es6-promisify.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@puntt/eslint-config": "0.0.2",
     "es6-promise": "^4.2.8",
-    "eslint": "^5.16.0",
-    "nyc": "^14.1.1",
-    "sinon": "^7.4.1",
-    "tape": "^4.11.0"
+    "eslint": "^6.8.0",
+    "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
+    "sinon": "^9.0.1",
+    "tape": "^4.13.2"
   }
 }
