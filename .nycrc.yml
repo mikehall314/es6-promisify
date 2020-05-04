@@ -2,8 +2,5 @@ all: true
 reporter:
     - "lcov"
 exclude:
-    - "database/build.js"
-    - "lib/routemap.js"
     - "coverage/**"
     - "test/**"
-    - "app.js"
