@@ -12,11 +12,11 @@
     "license": "MIT",
     "scripts": {
         "prettier": "prettier --write 'lib/**/*.{js,yml}'",
-        "pretest": "eslint 'lib/*.js' 'test/*.js'",
+        "lint": "eslint 'lib/*.js' 'test/*.js'",
+        "pretest": "npm run lint && npm run build",
         "build": "babel lib -d dist",
-        "real-test": "tape test",
-        "test": "npm run build && npm run real-test",
-        "test:cover": "npm run build && nyc tape test"
+        "test": "tape test",
+        "test:coverage": "nyc npm test"
     },
     "bugs": "http://github.com/digitaldesignlabs/es6-promisify/issues",
     "files": [
