@@ -1,2 +1,4 @@
 root: true
 extends: "@puntt/eslint-config"
+parserOptions:
+    ecmaVersion: 2016
