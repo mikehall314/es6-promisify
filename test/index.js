@@ -16,8 +16,8 @@
 // Using tape for testing
 const test = require("tape");
 
-// This is the code under test
-const {promisify} = require("../dist/promisify");
+// This is the code under test (should add a second suite for mjs)
+const {promisify} = require("../dist/promisify.js");
 
 /**
  * standard()

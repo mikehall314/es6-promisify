@@ -1,9 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.promisify = promisify;
 // Symbols is a better way to do this, but not all browsers have good support,
 // so instead we'll just make do with a very unlikely string.
 var customArgumentsToken = "__ES6-PROMISIFY--CUSTOM-ARGUMENTS__";
@@ -34,13 +28,11 @@ function promisify(original) {
   }
 
   return function () {
-    var _this = this;
-
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return new ES6Promise(function (resolve, reject) {
+    return new ES6Promise((resolve, reject) => {
       // Append the callback bound to the context
       args.push(function callback(err) {
         if (err) {
@@ -56,7 +48,7 @@ function promisify(original) {
         }
 
         var o = {};
-        values.forEach(function (value, index) {
+        values.forEach((value, index) => {
           var name = argumentNames[index];
 
           if (name) {
@@ -66,7 +58,7 @@ function promisify(original) {
         resolve(o);
       }); // Call the function.
 
-      original.apply(_this, args);
+      original.apply(this, args);
     });
   };
 } // Attach this symbol to the exported function, so users can use it
@@ -74,3 +66,5 @@ function promisify(original) {
 
 promisify.argumentNames = customArgumentsToken;
 promisify.Promise = undefined; // Export the public API
+
+export { promisify };
