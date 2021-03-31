@@ -28,7 +28,7 @@ const {promisify} = require("../dist/promisify");
  */
 function standard(success, callback) {
     if (success === false) {
-        return callback("error");
+        return callback(new Error());
     }
     callback(undefined, "success");
 }
@@ -46,8 +46,8 @@ const o = {
         if (this && this.foo) {
             return callback(undefined, "success");
         }
-        callback("error");
-    }
+        callback(new Error());
+    },
 };
 
 // Test a simple promisify
@@ -69,7 +69,7 @@ test("promisify rejecting function", assert => {
 
     const promisified = promisify(standard);
     promisified(false).catch(reason => {
-        assert.equal(reason, "error", "Should reject with string 'error'");
+        assert.ok(reason instanceof Error, "Should reject with an error");
         assert.end();
     });
 });
@@ -108,7 +108,7 @@ test("promisify method with broken context", assert => {
     // Promisify a method using this, without using bind. Should reject.
     const promisified = promisify(o.method);
     promisified().catch(reason => {
-        assert.equal(reason, "error", "Should reject with string 'error'");
+        assert.ok(reason instanceof Error, "Should reject with an error");
         assert.end();
     });
 });
@@ -183,7 +183,7 @@ test("promisifying multiple times, with rejection", assert => {
 
     const twice = promisify(promisify(standard));
     twice(false).catch(reason => {
-        assert.equal(reason, "error", "Should reject with string 'error'");
+        assert.ok(reason instanceof Error, "Should reject with an error");
         assert.end();
     });
 });
