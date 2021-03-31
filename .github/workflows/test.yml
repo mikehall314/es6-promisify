@@ -1,0 +1,28 @@
+name: "Test Runner"
+on: "push"
+jobs:
+    test-legacy:
+        runs-on: "ubuntu-latest"
+        strategy:
+            matrix:
+                version: ["6.x"]
+        steps:
+            - uses: "actions/checkout@v2"
+            - name: Node v${{ matrix.version }}
+              uses: "actions/setup-node@v2"
+              with:
+                  node-version: ${{ matrix.version }}
+            - run: npm i
+            - run: npm test
+    test:
+        runs-on: "ubuntu-latest"
+        strategy:
+            matrix:
+                version: ["8.x", "10.x", "12.x", "14.x"]
+        steps:
+            - uses: "actions/checkout@v2"
+            - name: Node v${{ matrix.version }}
+              uses: "actions/setup-node@v2"
+              with:
+                  node-version: ${{ matrix.version }}
+            - run: npm cit

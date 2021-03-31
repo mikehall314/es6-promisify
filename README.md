@@ -1,8 +1,8 @@
-[![Travis CI](https://travis-ci.org/digitaldesignlabs/es6-promisify.svg)](https://travis-ci.org/digitaldesignlabs/es6-promisify)
+![Build Status](https://github.com/digitaldesignlabs/es6-promisify/actions/workflows/test.yml/badge.svg)
 
 # es6-promisify
 
-Converts callback-based functions to ES6/ES2015 Promises, using a boilerplate callback function.
+Converts callback-based functions to Promises, using a boilerplate callback function.
 
 ## Install
 
@@ -88,12 +88,5 @@ Test with tape
 ```bash
 $ npm test
 ```
-
-### Changes from v5.0.0
-
--   Allow developer to specify a different implementations of `Promise`
--   No longer ships with a polyfill for `Promise`. If your environment has no native `Promise` you must polyfill yourself, or set `promisify.Promise` to an A+ compatible `Promise` implementation.
--   Removed support for `settings.thisArg`: use `.bind()` instead.
--   Removed support for `settings.multiArgs`: use named arguments instead.
 
 Published under the [MIT License](http://opensource.org/licenses/MIT).
