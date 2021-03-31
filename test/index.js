@@ -23,7 +23,8 @@ const {promisify} = require("../dist/promisify");
  * standard()
  * A standard function we will use to test. Takes two arguments.
  *
- * @param {boolean} success - If false, will call the callback with an error. Otherwise, calls with string "success"
+ * @param {boolean} success - If false, will call the callback with an error.
+ *      Otherwise, calls with string "success"
  * @param {function} callback
  */
 function standard(success, callback) {
@@ -35,8 +36,9 @@ function standard(success, callback) {
 
 /**
  * o
- * This object is used for testing methods. It has a `foo` property, which (if visible on `this`) will cause the
- * `method` method to callback with "success". Otherwise, will callback with "error".  Also includes a `standard`
+ * This object is used for testing methods. It has a `foo` property, which (if
+ * visible on `this`) will cause the `method` method to callback with "success".
+ * Otherwise, will callback with an error.  Also includes a `standard`
  * method, which does not use the `this` context at all.
  */
 const o = {
@@ -52,7 +54,6 @@ const o = {
 
 // Test a simple promisify
 test("promisify function", assert => {
-
     assert.plan(1);
 
     const promisified = promisify(standard);
@@ -64,7 +65,6 @@ test("promisify function", assert => {
 
 // Test that error callbacks lead to rejected promises
 test("promisify rejecting function", assert => {
-
     assert.plan(1);
 
     const promisified = promisify(standard);
@@ -76,7 +76,6 @@ test("promisify rejecting function", assert => {
 
 // Test that promisified methods without `this` resolve ok
 test("promisify method", assert => {
-
     assert.plan(1);
 
     const promisified = promisify(o.standard);
@@ -88,21 +87,18 @@ test("promisify method", assert => {
 
 // Test that promified methods with `this` resolve okay, if bound to the right context
 test("promisify method using `this`", assert => {
-
     assert.plan(1);
 
     // Promisify a method, using bind to lock `this` context
     const promisified = promisify(o.method.bind(o));
-    promisified()
-        .then(success => {
-            assert.equal(success, "success", "Should resolve with string 'success'");
-            assert.end();
-        });
+    promisified().then(success => {
+        assert.equal(success, "success", "Should resolve with string 'success'");
+        assert.end();
+    });
 });
 
 // Test that promisified methods with `this` fail, if left unbound
 test("promisify method with broken context", assert => {
-
     assert.plan(1);
 
     // Promisify a method using this, without using bind. Should reject.
@@ -115,7 +111,6 @@ test("promisify method with broken context", assert => {
 
 // Test that promisified functions can be called multiple times
 test("promisified function called multiple times", assert => {
-
     assert.plan(1);
 
     let counter = 0;
@@ -132,7 +127,6 @@ test("promisified function called multiple times", assert => {
 
 // Promises resolve with a single argument; other arguments should be discarded
 test("promisified function callback with multiple arguments", assert => {
-
     assert.plan(1);
 
     const promisified = promisify(cb => setTimeout(cb, 10, undefined, 1, 2, 3));
@@ -146,7 +140,6 @@ test("promisified function callback with multiple arguments", assert => {
 // Borrowing an API from util.promisify, multiple arguments can be retained if
 // the user supplies names for those arguments.
 test("promisified function callback with retained named arguments", assert => {
-
     assert.plan(1);
 
     function f(cb) {
@@ -158,14 +151,17 @@ test("promisified function callback with retained named arguments", assert => {
 
     const promisified = promisify(f);
     promisified().then(result => {
-        assert.deepEqual(result, {one: 1, two: 2}, "Should return with named arguments");
+        assert.deepEqual(
+            result,
+            {one: 1, two: 2},
+            "Should return with named arguments"
+        );
         assert.end();
     });
 });
 
 // Test that we can handle promisifying multiple times
 test("promisifying multiple times", assert => {
-
     assert.plan(1);
 
     // Promisify a something which returns a promise
@@ -178,7 +174,6 @@ test("promisifying multiple times", assert => {
 
 // Test we can handle promisifying multiple times, where the promise rejects
 test("promisifying multiple times, with rejection", assert => {
-
     assert.plan(1);
 
     const twice = promisify(promisify(standard));
@@ -190,20 +185,20 @@ test("promisifying multiple times, with rejection", assert => {
 
 // Test honouring the user's choice of Promise polyfill
 test("supplying a custom promise implementation", assert => {
-
     const sinon = require("sinon");
     const CustomPromise = sinon.spy(require("es6-promise"), "Promise");
 
-    function f(cb) {
-        setTimeout(cb, 10, undefined, "success");
-    }
+    const f = cb => setTimeout(cb, 10, undefined, "success");
 
     promisify.Promise = CustomPromise;
 
     const promisified = promisify(f);
     promisified().then(success => {
         assert.equal(success, "success", "Should resolve okay");
-        assert.ok(CustomPromise.calledOnce, "Custom Promise constructor should be called");
+        assert.ok(
+            CustomPromise.calledOnce,
+            "Custom Promise constructor should be called"
+        );
         CustomPromise.restore();
         assert.end();
     });
