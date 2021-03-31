@@ -1,6 +1,0 @@
-all: true
-reporter:
-    - "lcov"
-exclude:
-    - "coverage/**"
-    - "test/**"
