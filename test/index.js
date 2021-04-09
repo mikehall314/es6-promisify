@@ -1,8 +1,9 @@
 /**
  * es6-promisify
  * Promisification boilerplate for NodeJS and Browsers
+ *
  * @license MIT
- * @copyright Mike Hall / Digital Design Labs
+ * @copyright Mike Hall
  */
 
 "use strict";

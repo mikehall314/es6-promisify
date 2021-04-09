@@ -21,14 +21,14 @@
         "test": "tape test",
         "test:coverage": "nyc npm test"
     },
-    "bugs": "http://github.com/digitaldesignlabs/es6-promisify/issues",
+    "bugs": "http://github.com/mikehall314/es6-promisify/issues",
     "files": [
         "dist/promisify.js",
         "dist/promisify.mjs"
     ],
     "repository": {
         "type": "git",
-        "url": "digitaldesignlabs/es6-promisify"
+        "url": "mikehall314/es6-promisify"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.14",
