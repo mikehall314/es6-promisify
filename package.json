@@ -6,9 +6,11 @@
     "module": "dist/promisify.mjs",
     "author": "Mike Hall <mikehall314@gmail.com>",
     "keywords": [
+        "promise",
         "promises",
         "es6",
-        "promisify"
+        "promisify",
+        "es6-promisify"
     ],
     "license": "MIT",
     "scripts": {
