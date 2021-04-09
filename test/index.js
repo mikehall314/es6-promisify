@@ -16,6 +16,7 @@
 
 // Using tape for testing
 const test = require("tape");
+const sinon = require("sinon");
 
 // This is the code under test (should add a second suite for mjs)
 const {promisify} = require("../dist/promisify.js");
@@ -186,7 +187,6 @@ test("promisifying multiple times, with rejection", assert => {
 
 // Test honouring the user's choice of Promise polyfill
 test("supplying a custom promise implementation", assert => {
-    const sinon = require("sinon");
     const CustomPromise = sinon.spy(require("es6-promise"), "Promise");
 
     const f = cb => setTimeout(cb, 10, undefined, "success");
