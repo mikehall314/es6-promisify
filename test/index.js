@@ -116,7 +116,7 @@ test("promisified function called multiple times", assert => {
     assert.plan(1);
 
     let counter = 0;
-    const promisified = promisify(function (cb) {
+    const promisified = promisify(cb => {
         counter += 1;
         cb(undefined, counter);
     });
@@ -144,11 +144,8 @@ test("promisified function callback with multiple arguments", assert => {
 test("promisified function callback with retained named arguments", assert => {
     assert.plan(1);
 
-    function f(cb) {
-        setTimeout(cb, 10, undefined, 1, 2, 3, 4);
-    }
-
     // Specify names for retained arguments
+    const f = cb => setTimeout(cb, 10, undefined, 1, 2, 3, 4);
     f[promisify.argumentNames] = ["one", "two"];
 
     const promisified = promisify(f);
@@ -185,22 +182,52 @@ test("promisifying multiple times, with rejection", assert => {
     });
 });
 
-// Test honouring the user's choice of Promise polyfill
-test("supplying a custom promise implementation", assert => {
+test("honouring the user's choice of Promise polyfill", assert => {
+    assert.plan(2);
+
+    // Drop in a custom Promise implementation
     const CustomPromise = sinon.spy(require("es6-promise"), "Promise");
-
-    const f = cb => setTimeout(cb, 10, undefined, "success");
-
     promisify.Promise = CustomPromise;
 
+    const f = cb => setTimeout(cb, 10, undefined, "success");
     const promisified = promisify(f);
+
     promisified().then(success => {
         assert.equal(success, "success", "Should resolve okay");
         assert.ok(
             CustomPromise.calledOnce,
             "Custom Promise constructor should be called"
         );
+
+        // Clean up
+        promisify.Promise = undefined;
         CustomPromise.restore();
         assert.end();
     });
+});
+
+test("throws for Promise-less environment", assert => {
+    /* eslint-disable no-global-assign */
+
+    // Temporarily remove the native Promise
+    const P = Promise;
+    Promise = undefined;
+
+    assert.throws(
+        _ => promisify(standard),
+        "should throw with no Promise implementation"
+    );
+
+    // Clean up
+    Promise = P;
+    assert.end();
+});
+
+test("throws when trying to promisify something which isn't a func", assert => {
+    assert.plan(1);
+    assert.throws(
+        _ => promisify("not a func"),
+        "should throw for non-function argument"
+    );
+    assert.end();
 });
