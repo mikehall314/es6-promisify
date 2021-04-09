@@ -73,4 +73,4 @@ function promisify(original) {
 
 
 promisify.argumentNames = customArgumentsToken;
-promisify.Promise = undefined; // Export the public API
+promisify.Promise = undefined;

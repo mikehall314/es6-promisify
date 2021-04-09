@@ -11,7 +11,7 @@ var customArgumentsToken = "__ES6-PROMISIFY--CUSTOM-ARGUMENTS__";
  * @return {function} A promisified version of `original`
  */
 
-function promisify(original) {
+export function promisify(original) {
   // Ensure the argument is a function
   if (typeof original !== "function") {
     throw new TypeError("Argument to promisify must be a function");
@@ -63,8 +63,5 @@ function promisify(original) {
   };
 } // Attach this symbol to the exported function, so users can use it
 
-
 promisify.argumentNames = customArgumentsToken;
-promisify.Promise = undefined; // Export the public API
-
-export { promisify };
+promisify.Promise = undefined;
