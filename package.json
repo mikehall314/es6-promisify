@@ -17,6 +17,9 @@
         "es6-promisify"
     ],
     "license": "MIT",
+    "engines": {
+        "node": ">=6"
+    },
     "scripts": {
         "prettier": "prettier --write lib",
         "lint": "eslint lib test",
@@ -51,7 +54,7 @@
         "husky": "^6.0.0",
         "nyc": "^15.1.0",
         "prettier": "^2.3.0",
-        "sinon": "^11.1.0",
+        "sinon": "^10.0.0",
         "tape": "^5.2.2"
     }
 }
